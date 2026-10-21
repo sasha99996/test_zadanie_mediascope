@@ -22,8 +22,8 @@ class TestPostApiV1Dict:
         with allure.step("Проверка: код ответа = 200"):
             check_response_code(response, 200)
 
-    @allure.testcase("TC2")
-    @allure.testcase("TC3")
+
+    @allure.testcase("TC10")
     @allure.title("Сортировка данных по полю 'name'")
     @pytest.mark.parametrize("sort, reverse", [("ASC", False), ("DESC", True)])
     def test_post_sort_by_name(self, sort, reverse):
@@ -44,23 +44,23 @@ class TestPostApiV1Dict:
                 response.json()["data"], key="name", reverse=reverse
             )
 
-    @allure.testcase("TC4")
-    @allure.title("Получение данных с параметром limit=10")
+    @allure.testcase("TC8")
+    @allure.title("Получение данных с параметром limit=5")
     def test_post_with_small_limit(self):
         with allure.step(
-            "Шаг: Отправить запрос с start_date='2026-07-30', finish_date='2026-10-19' и limit=10"
+            "Шаг: Отправить запрос с start_date='2026-07-30', finish_date='2026-10-19' и limit=5"
         ):
             response = retrieve_reference_data(
-                start_date="2026-07-30", finish_date="2026-10-19", limit=10
+                start_date="2026-07-30", finish_date="2026-10-19", limit=5
             )
         with allure.step("Проверка: код ответа = 200"):
             check_response_code(response, 200)
-        with allure.step("Проверка: количество элементов <= 10"):
+        with allure.step("Проверка: количество элементов <= 5"):
             assert (
                 len(response.json()["data"]) <= 10
-            ), "Количество элементов в data превышает 10"
+            ), "Количество элементов в data превышает 5"
 
-    @allure.testcase("TC5")
+    @allure.testcase("TC22")
     @allure.title("Получение данных с невалидным start_date")
     def test_post_with_invalid_start_date(self):
         with allure.step(
@@ -72,7 +72,7 @@ class TestPostApiV1Dict:
         with allure.step("Проверка: код ответа = 400"):
             check_response_code(response, 400)
 
-    @allure.testcase("TC6")
+    @allure.testcase("TC3")
     @allure.title("Запрос без параметра limit")
     def test_post_without_limit(self):
         with allure.step(
